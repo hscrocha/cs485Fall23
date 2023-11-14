@@ -1,10 +1,23 @@
 package edu.loyola.cs485;
 
+import edu.loyola.cs485.model.dao.ClientDAO;
+import edu.loyola.cs485.model.entity.Client;
+
 import java.sql.*;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
+        try {
+            Client c = new Client();
+            c.setName("Test");
+            c.setEmail("test@test.com");
+            ClientDAO dao = new ClientDAO();
+            dao.create(c);
+            System.out.println(c.getId());
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
     }
 
     public static void preparedStatementExample(){
