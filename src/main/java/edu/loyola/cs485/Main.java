@@ -4,17 +4,19 @@ import edu.loyola.cs485.model.dao.ClientDAO;
 import edu.loyola.cs485.model.entity.Client;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
         try {
-            Client c = new Client();
-            c.setName("Test");
-            c.setEmail("test@test.com");
+            List<Client> lst;
             ClientDAO dao = new ClientDAO();
-            dao.create(c);
-            System.out.println(c.getId());
+            lst = dao.list();
+            for(Client c : lst) {
+                System.out.println(c.getName());
+            }
         }catch(Exception ex){
             System.out.println(ex);
         }
