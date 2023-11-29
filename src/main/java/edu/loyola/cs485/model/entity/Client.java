@@ -41,4 +41,8 @@ public class Client extends AbstractEntity {
     public void setDob(java.sql.Date dob) {
         Dob = dob;
     }
+
+    @Override public String toString(){
+        return Integer.toString(Id)+" | "+Name+" <"+Email+">";
+    }
 }

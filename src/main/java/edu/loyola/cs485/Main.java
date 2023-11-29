@@ -2,6 +2,7 @@ package edu.loyola.cs485;
 
 import edu.loyola.cs485.model.dao.ClientDAO;
 import edu.loyola.cs485.model.entity.Client;
+import edu.loyola.cs485.view.MainFrame;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,6 +10,11 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        MainFrame f = new MainFrame();
+        f.setVisible(true);
+    }
+
+    public static void listExample(){
         System.out.println("Hello world!");
         try {
             List<Client> lst;
