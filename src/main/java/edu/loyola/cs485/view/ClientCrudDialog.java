@@ -1,6 +1,7 @@
 package edu.loyola.cs485.view;
 
 import edu.loyola.cs485.controller.ClientService;
+import edu.loyola.cs485.model.entity.Client;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -46,6 +47,18 @@ public class ClientCrudDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        newButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onNewClick();
+            }
+        });
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onDeleteClick();
+            }
+        });
     }
 
     private void onOK() {
@@ -56,6 +69,28 @@ public class ClientCrudDialog extends JDialog {
     private void onCancel() {
         // add your code here if necessary
         dispose();
+    }
+
+    public void onNewClick(){
+        ClientDialog dlg=new ClientDialog();
+        dlg.pack();
+        dlg.setVisible(true);
+
+        populateList();
+    }
+
+    public void onDeleteClick(){
+        try{
+            Client selClient = (Client) lstClientUI.getSelectedValue();
+            //System.out.println(selClient);
+            ClientService service = new ClientService();
+            service.delete(selClient);
+
+            populateList();
+        }catch(Exception ex){
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(this,"Error: "+ex.getMessage());
+        }
     }
 
     public void populateList(){

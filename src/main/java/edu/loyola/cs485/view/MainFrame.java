@@ -28,6 +28,12 @@ public class MainFrame extends JFrame {
         });
         menuClient.add(mniClientInsert);
 
+        JMenuItem mniClientCrud = new JMenuItem("CRUD");
+        mniClientCrud.addActionListener( e->{
+            crudClientClick();
+        });
+        menuClient.add(mniClientCrud);
+
         bar.add(menuFile);
         bar.add(menuClient);
         return bar;
@@ -35,6 +41,12 @@ public class MainFrame extends JFrame {
 
     public void newClientClick(){
         ClientDialog dlg = new ClientDialog();
+        dlg.pack();
+        dlg.setVisible(true);
+    }
+
+    public void crudClientClick(){
+        ClientCrudDialog dlg = new ClientCrudDialog();
         dlg.pack();
         dlg.setVisible(true);
     }

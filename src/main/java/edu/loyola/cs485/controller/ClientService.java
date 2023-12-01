@@ -23,4 +23,11 @@ public class ClientService {
         ClientDAO dao = new ClientDAO();
         return dao.list();
     }
+
+    public void delete(Client c) throws Exception {
+        if(c!=null) {
+            ClientDAO dao = new ClientDAO();
+            dao.delete(c);
+        }
+    }
 }
