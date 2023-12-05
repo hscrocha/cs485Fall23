@@ -1,43 +1,84 @@
-public class LoginDialog extends javax.swing.JDialog {
-private javax.swing.JPanel contentPane;
-private javax.swing.JButton buttonOK;
-private javax.swing.JButton buttonCancel;
+package edu.loyola.cs485.view;
 
-public LoginDialog(){
-setContentPane(contentPane);
-setModal(true);
-getRootPane().setDefaultButton(buttonOK);
+import edu.loyola.cs485.controller.UserService;
+import edu.loyola.cs485.model.entity.User;
 
-buttonOK.addActionListener(new java.awt.event.ActionListener(){public void actionPerformed(java.awt.event.ActionEvent e){onOK();}});
+import javax.swing.*;
+import java.awt.event.*;
 
-buttonCancel.addActionListener(new java.awt.event.ActionListener(){public void actionPerformed(java.awt.event.ActionEvent e){onCancel();}});
+public class LoginDialog extends JDialog {
+    private JPanel contentPane;
+    private JButton buttonOK;
+    private JButton buttonCancel;
+    private JTextField txtLogin;
+    private JPasswordField txtPassword;
 
- // call onCancel() when cross is clicked
-setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-addWindowListener(new java.awt.event.WindowAdapter() {
-  public void windowClosing(java.awt.event.WindowEvent e) {
-   onCancel();
-  }
-});
+    public LoginDialog() {
+        setContentPane(contentPane);
+        setModal(true);
+        getRootPane().setDefaultButton(buttonOK);
 
- // call onCancel() on ESCAPE
-contentPane.registerKeyboardAction(  new java.awt.event.ActionListener() {    public void actionPerformed(java.awt.event.ActionEvent e) {      onCancel();
-    }  },  javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0),  javax.swing.JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);}
+        buttonOK.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onOK();
+            }
+        });
 
-private void onOK(){
- // add your code here
-dispose();
-}
+        buttonCancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        });
 
-private void onCancel(){
- // add your code here if necessary
-dispose();
-}
+        // call onCancel() when cross is clicked
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                onCancel();
+            }
+        });
 
-public static void main(String[] args){
-LoginDialog dialog = new LoginDialog();
-dialog.pack();
-dialog.setVisible(true);
-System.exit(0);
-}
+        // call onCancel() on ESCAPE
+        contentPane.registerKeyboardAction(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    private void onOK() {
+        // add your code here
+        try {
+            String login = txtLogin.getText();
+            String password = txtPassword.getText();
+
+            UserService service = new UserService();
+            User logged = service.login(login, password);
+            if(logged != null){
+                //Sucessfull Login
+                JOptionPane.showMessageDialog(this,
+                        "Welcome "+logged.getLogin());
+                dispose();
+            } else {
+                //Incorrect Login or Password
+                JOptionPane.showMessageDialog(this,
+                        "Login or Password Incorrect.");
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(this,ex.getMessage());
+        }
+    }
+
+    private void onCancel() {
+        // add your code here if necessary
+        System.exit(0);
+    }
+
+    public static void main(String[] args) {
+        LoginDialog dialog = new LoginDialog();
+        dialog.pack();
+        dialog.setVisible(true);
+        System.exit(0);
+    }
 }
